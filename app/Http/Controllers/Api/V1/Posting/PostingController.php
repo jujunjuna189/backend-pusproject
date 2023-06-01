@@ -56,7 +56,9 @@ class PostingController extends BaseController
             $newRequest->merge(['posting_id' => $posting->id, 'style' => $request->style]);
             $newRequest->files->set('file', $request->file('file'));
             $posting_file = $posting_file->store($newRequest);
-            $posting_file->original['status'] !== 'success' && throw 'Gagal posting file';
+            if ($posting_file->original['status'] !== 'success') {
+                return $this->badRequestResponse('Gagal posting file');
+            }
 
             DB::commit();
             return $this->successResponse('Publish posting', $posting);
