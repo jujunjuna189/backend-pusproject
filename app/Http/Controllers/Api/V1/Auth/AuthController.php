@@ -101,7 +101,7 @@ class AuthController extends BaseController
         }
 
         $user = UserModel::firstOrNew(['email' => $request->email]);
-
+        $user->photo = $request->photo;
         $user->name = $request->name;
         $user->email = $request->email;
         $user->save();

@@ -11,4 +11,10 @@ class UserAboutModel extends Model
 
     protected $table = 'users_about';
     protected $guarded = ['id'];
+    protected $appends = ['skills_decode'];
+
+    public function getSkillsDecodeAttribute()
+    {
+        return json_decode($this->skills);
+    }
 }

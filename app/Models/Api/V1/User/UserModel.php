@@ -4,6 +4,7 @@ namespace App\Models\Api\V1\User;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Laravel\Sanctum\HasApiTokens;
 
 class UserModel extends Model
@@ -33,4 +34,9 @@ class UserModel extends Model
         'password.min' => ':attribute minimal 6 karakter',
         'unique' => ':attribute sudah digunakan',
     ];
+
+    public function userAbout(): HasOne
+    {
+        return $this->hasOne(UserAboutModel::class, 'user_id', 'id');
+    }
 }

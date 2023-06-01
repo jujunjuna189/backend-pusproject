@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users_about', function (Blueprint $table) {
+        Schema::create('posting', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('user_id')->comment('Berelasi ke table users');
-            $table->text('skills')->nullable()->comment('Data skil yang dimiliki user, data berupa array of object');
-            $table->text('biography')->nullable()->comment('Data tentang user, data berupa string deskripsi user');
-            $table->integer('role_key')->comment('Pengambilan data dari table role, digunakan untuk hak akses');
+            $table->string('title')->comment('Untuk judul yang diupload');
+            $table->double('price')->nullable()->comment('Untuk harga jika ada');
             $table->timestamps();
         });
     }
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users_about');
+        Schema::dropIfExists('posting');
     }
 };

@@ -10,6 +10,7 @@ class BaseController extends Controller
 {
     use AuthorizesRequests, ValidatesRequests;
 
+    // Untuk Response Api
     protected function serverErrorResponse($message, $data = [])
     {
         $response = [
@@ -52,5 +53,23 @@ class BaseController extends Controller
         ];
 
         return response()->json($response, 200);
+    }
+
+    // Global Function Untuk Upload File
+    protected function upload_image($request, $path)
+    {
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+
+            $file_name = str_replace(' ', '-', $file->getClientOriginalName());
+
+            $destination = 'storage/' . $path;
+            $file->move($destination, $file_name);
+            $file = $destination . '/' . $file_name;
+        } else {
+            $file = '';
+        }
+
+        return $file;
     }
 }
