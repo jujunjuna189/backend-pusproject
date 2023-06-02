@@ -18,6 +18,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::post('login', [AuthController::class, 'login']);
+Route::post('register', [AuthController::class, 'register']);
+Route::post('register/google', [AuthController::class, 'registerGoogle']);
+
+// Global api not with authorization
+Route::group(['prefix' => 'pub'], function ($router) {
+    // Posting
+    $router->get('/posting', [PostingController::class, 'show']);
+});
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -39,7 +49,3 @@ Route::middleware('auth:sanctum')->group(function () {
         $router->post('/store', [PostingController::class, 'store']);
     });
 });
-
-Route::post('login', [AuthController::class, 'login']);
-Route::post('register', [AuthController::class, 'register']);
-Route::post('register/google', [AuthController::class, 'registerGoogle']);

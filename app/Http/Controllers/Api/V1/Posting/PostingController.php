@@ -16,7 +16,7 @@ class PostingController extends BaseController
      */
     public function show()
     {
-        $posting = PostingModel::paginate();
+        $posting = PostingModel::with('postingFile')->paginate();
         return $this->successResponse('Berhasil ambil data posting', $posting);
     }
 
