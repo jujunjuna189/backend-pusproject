@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\V1\Auth\AuthController;
+use App\Http\Controllers\Api\V1\EmailBase\EmailBaseController;
 use App\Http\Controllers\Api\V1\Posting\PostingController;
 use App\Http\Controllers\Api\V1\User\UserAboutController;
 use App\Http\Controllers\Api\V1\User\UserController;
@@ -24,6 +25,10 @@ Route::post('register/google', [AuthController::class, 'registerGoogle']);
 
 // Global api not with authorization
 Route::group(['prefix' => 'pub'], function ($router) {
+    Route::group(['prefix' => 'email-base'], function ($router) {
+        // Email Base
+        $router->post('/store', [EmailBaseController::class, 'store']);
+    });
     // Posting
     $router->get('/posting', [PostingController::class, 'show']);
 });

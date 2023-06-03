@@ -57,6 +57,7 @@ class PostingController extends BaseController
             $newRequest->files->set('file', $request->file('file'));
             $posting_file = $posting_file->store($newRequest);
             if ($posting_file->original['status'] !== 'success') {
+                DB::rollback();
                 return $this->badRequestResponse('Gagal posting file');
             }
 
