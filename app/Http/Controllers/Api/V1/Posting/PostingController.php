@@ -16,7 +16,7 @@ class PostingController extends BaseController
      */
     public function show()
     {
-        $posting = PostingModel::with('postingFile')->paginate();
+        $posting = PostingModel::with('user', 'postingFile')->paginate();
         return $this->successResponse('Berhasil ambil data posting', $posting);
     }
 
@@ -25,7 +25,7 @@ class PostingController extends BaseController
      */
     public function showByUser()
     {
-        $posting = PostingModel::with('postingFile')->where('user_id', Auth::user()->id)->orderBy('id', 'desc')->paginate();
+        $posting = PostingModel::with('user', 'postingFile')->where('user_id', Auth::user()->id)->orderBy('id', 'desc')->paginate();
         return $this->successResponse('Berhasil ambil data posting', $posting);
     }
 
@@ -67,5 +67,23 @@ class PostingController extends BaseController
             DB::rollback();
             return $this->serverErrorResponse('Server error', $th);
         }
+    }
+
+    public function delete(Request $request)
+    {
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'id' => PostingModel::$getRules['id']
+            ],
+            PostingModel::$messageRules
+        );
+        if ($validator->fails()) {
+            return $this->badRequestResponse($validator->messages());
+        }
+
+        $posting = PostingModel::find($request->id);
+        $posting->delete();
+        return $this->successResponse('Delete posting', $posting);
     }
 }

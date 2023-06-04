@@ -52,5 +52,6 @@ Route::middleware('auth:sanctum')->group(function () {
         $router->get('/', [PostingController::class, 'show']);
         $router->get('/by-user', [PostingController::class, 'showByUser']);
         $router->post('/store', [PostingController::class, 'store']);
+        $router->post('/delete', [PostingController::class, 'delete']);
     });
 });
